@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #212121;
+  color: white;
+}
+
+.header .logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.header .nav {
+  display: flex;
+  gap: 20px;
+}
+
+.header .nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.header .search-bar input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
