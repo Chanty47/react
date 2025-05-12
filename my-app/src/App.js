@@ -10,7 +10,7 @@ function App() {
   // Fetch products from the API
   useEffect(() => {
     axios
-      .get('${API_BASE_URL}')  // Make sure this URL is correct in production
+      .get(API_BASE_URL)  // Make sure this URL is correct in production
       .then((response) => {
         setProducts(response.data);  // Set the fetched products
         setLoading(false);  // Data has been loaded
