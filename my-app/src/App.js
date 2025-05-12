@@ -1,34 +1,47 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import HomePage from "./pages/HomePage";
-import ProductsPage from "./pages/ProductsPage";
-import ProductDetailsPage from "./pages/ProductDetailsPage";
-import CartPage from "./pages/CartPage";
-import CheckoutPage from "./pages/CheckoutPage";
-import OrderConfirmationPage from "./pages/OrderConfirmationPage";
-import "./styles/App.css";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const App = () => {
+function App() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const API_BASE_URL = process.env.backend_url;
+
+  // Fetch products from the API
+  useEffect(() => {
+    axios
+      .get('${backend_url}')  // Make sure this URL is correct in production
+      .then((response) => {
+        setProducts(response.data);  // Set the fetched products
+        setLoading(false);  // Data has been loaded
+      })
+      .catch((err) => {
+        setError('Failed to load products');  // Handle errors
+        setLoading(false);
+      });
+  }, []); // Empty dependency array means this runs only once when the component mounts
+
+  if (loading) {
+    return <div>Loading...</div>;  // Loading state
+  }
+
+  if (error) {
+    return <div>{error}</div>;  // Error state
+  }
+
   return (
-    <Router>
-      <div className="app">
-        <Header />
-        <main className="main-content">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/product/:id" element={<ProductDetailsPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <div className="App">
+      <h1>Product List</h1>
+      <ul>
+        {products.map((product) => (
+          <li key={product.id}>
+            <h2>{product.name}</h2>
+            <p>Price: ${product.price}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
-};
+}
 
 export default App;
